@@ -1,0 +1,25 @@
+version: '3'
+services:
+  halo:
+    container_name: halo-server
+    image: halohub/halo:1.4.8
+    # restart: on-failure
+    restart: always
+    ports:
+      - "8090:8090"
+    environment:
+      - VIRTUAL_PORT=8090
+      - VIRTUAL_HOST=www.yourdomain.com  # 你的博客地址（务必修改）
+      - LETSENCRYPT_HOST=www.yourdomain.com # 你的博客地址 （务必修改）
+      - LETSENCRYPT_EMAIL=example@email.com # 证书所有者的邮箱，快过期时会提醒（务必修改）
+      - MAX_UPLOAD_SIZE=10m
+      - JVM_XMS=512m
+      - JVM_XMX=512m
+    volumes:
+      - "./halo:/root/.halo:rw"
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    external: true

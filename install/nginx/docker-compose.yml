@@ -1,0 +1,21 @@
+version: '3'
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:1.21.0-alpine
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    privileged: true
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d:rw
+      - ./cert/:/etc/nginx/cert:rw
+      - ./html/:/usr/share/nginx/html/:rw
+      - ./logs/:/var/log/nginx/:rw
+      - /etc/letsencrypt:/etc/letsencrypt:rw
+    networks:
+      - nginx_net
+networks:
+  nginx_net:
+    driver: bridge
